@@ -1,0 +1,52 @@
+﻿@model IEnumerable<PrestonClub.Models.SponserList>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    decimal amount = 0;
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New Sponser", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            Total Amateur Sponsored
+        </th>
+        <th>
+            Total Amount
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @item.AmateurSponserDetails.Count()
+            </td>
+            <td>
+                @foreach (var info in item.AmateurSponserDetails)
+                {
+                    amount += Convert.ToDecimal(info.SponsorAmount);
+                }
+                @amount
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>

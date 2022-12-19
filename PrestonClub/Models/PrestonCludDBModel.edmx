@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PrestonClubDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AmateurSponserDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Runner_ID" Type="int" Nullable="false" />
+          <Property Name="Sponsor_Id" Type="int" Nullable="false" />
+          <Property Name="SponsorAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ParticipantDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RegistrationDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="first_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="last_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone_number" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ParticipantsID" Type="int" Nullable="false" />
+          <Property Name="WorldRanking" Type="int" />
+          <Property Name="Volunteer_ID" Type="int" />
+          <Property Name="password" Type="nvarchar" MaxLength="100" />
+          <Property Name="UserType" Type="nvarchar" MaxLength="50" />
+          <Property Name="costume" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="RunnerStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Runner_ID" Type="int" />
+          <Property Name="RunningStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="FinishedTime" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SponserList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Volunteer_Types">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AmateurSponserDetails_RegistrationDetails">
+          <End Role="RegistrationDetails" Type="Self.RegistrationDetails" Multiplicity="1" />
+          <End Role="AmateurSponserDetails" Type="Self.AmateurSponserDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AmateurSponserDetails">
+              <PropertyRef Name="Runner_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AmateurSponserDetails_SponserList">
+          <End Role="SponserList" Type="Self.SponserList" Multiplicity="1" />
+          <End Role="AmateurSponserDetails" Type="Self.AmateurSponserDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SponserList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AmateurSponserDetails">
+              <PropertyRef Name="Sponsor_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegistrationDetails_ParticipantDetails">
+          <End Role="ParticipantDetails" Type="Self.ParticipantDetails" Multiplicity="1" />
+          <End Role="RegistrationDetails" Type="Self.RegistrationDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParticipantDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RegistrationDetails">
+              <PropertyRef Name="ParticipantsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegistrationDetails_Volunteer_Types">
+          <End Role="Volunteer_Types" Type="Self.Volunteer_Types" Multiplicity="0..1" />
+          <End Role="RegistrationDetails" Type="Self.RegistrationDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Volunteer_Types">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RegistrationDetails">
+              <PropertyRef Name="Volunteer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RunnerStatus_RegistrationDetails">
+          <End Role="RegistrationDetails" Type="Self.RegistrationDetails" Multiplicity="0..1" />
+          <End Role="RunnerStatus" Type="Self.RunnerStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RunnerStatus">
+              <PropertyRef Name="Runner_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PrestonClubDBModelStoreContainer">
+          <EntitySet Name="AmateurSponserDetails" EntityType="Self.AmateurSponserDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ParticipantDetails" EntityType="Self.ParticipantDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegistrationDetails" EntityType="Self.RegistrationDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RunnerStatus" EntityType="Self.RunnerStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SponserList" EntityType="Self.SponserList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Volunteer_Types" EntityType="Self.Volunteer_Types" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AmateurSponserDetails_RegistrationDetails" Association="Self.FK_AmateurSponserDetails_RegistrationDetails">
+            <End Role="RegistrationDetails" EntitySet="RegistrationDetails" />
+            <End Role="AmateurSponserDetails" EntitySet="AmateurSponserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AmateurSponserDetails_SponserList" Association="Self.FK_AmateurSponserDetails_SponserList">
+            <End Role="SponserList" EntitySet="SponserList" />
+            <End Role="AmateurSponserDetails" EntitySet="AmateurSponserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegistrationDetails_ParticipantDetails" Association="Self.FK_RegistrationDetails_ParticipantDetails">
+            <End Role="ParticipantDetails" EntitySet="ParticipantDetails" />
+            <End Role="RegistrationDetails" EntitySet="RegistrationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegistrationDetails_Volunteer_Types" Association="Self.FK_RegistrationDetails_Volunteer_Types">
+            <End Role="Volunteer_Types" EntitySet="Volunteer_Types" />
+            <End Role="RegistrationDetails" EntitySet="RegistrationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RunnerStatus_RegistrationDetails" Association="Self.FK_RunnerStatus_RegistrationDetails">
+            <End Role="RegistrationDetails" EntitySet="RegistrationDetails" />
+            <End Role="RunnerStatus" EntitySet="RunnerStatus" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PrestonClubDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AmateurSponserDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Runner_ID" Type="Int32" Nullable="false" />
+          <Property Name="Sponsor_Id" Type="Int32" Nullable="false" />
+          <Property Name="SponsorAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="RegistrationDetail" Relationship="Self.FK_AmateurSponserDetails_RegistrationDetails" FromRole="AmateurSponserDetails" ToRole="RegistrationDetails" />
+          <NavigationProperty Name="SponserList" Relationship="Self.FK_AmateurSponserDetails_SponserList" FromRole="AmateurSponserDetails" ToRole="SponserList" />
+        </EntityType>
+        <EntityType Name="ParticipantDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RegistrationDetails" Relationship="Self.FK_RegistrationDetails_ParticipantDetails" FromRole="ParticipantDetails" ToRole="RegistrationDetails" />
+        </EntityType>
+        <EntityType Name="RegistrationDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ParticipantsID" Type="Int32" Nullable="false" />
+          <Property Name="WorldRanking" Type="Int32" />
+          <Property Name="Volunteer_ID" Type="Int32" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="costume" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AmateurSponserDetails" Relationship="Self.FK_AmateurSponserDetails_RegistrationDetails" FromRole="RegistrationDetails" ToRole="AmateurSponserDetails" />
+          <NavigationProperty Name="ParticipantDetail" Relationship="Self.FK_RegistrationDetails_ParticipantDetails" FromRole="RegistrationDetails" ToRole="ParticipantDetails" />
+          <NavigationProperty Name="Volunteer_Types" Relationship="Self.FK_RegistrationDetails_Volunteer_Types" FromRole="RegistrationDetails" ToRole="Volunteer_Types" />
+          <NavigationProperty Name="RunnerStatus" Relationship="Self.FK_RunnerStatus_RegistrationDetails" FromRole="RegistrationDetails" ToRole="RunnerStatus" />
+        </EntityType>
+        <EntityType Name="RunnerStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Runner_ID" Type="Int32" />
+          <Property Name="RunningStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FinishedTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RegistrationDetail" Relationship="Self.FK_RunnerStatus_RegistrationDetails" FromRole="RunnerStatus" ToRole="RegistrationDetails" />
+        </EntityType>
+        <EntityType Name="SponserList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AmateurSponserDetails" Relationship="Self.FK_AmateurSponserDetails_SponserList" FromRole="SponserList" ToRole="AmateurSponserDetails" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Volunteer_Types">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="RegistrationDetails" Relationship="Self.FK_RegistrationDetails_Volunteer_Types" FromRole="Volunteer_Types" ToRole="RegistrationDetails" />
+        </EntityType>
+        <Association Name="FK_AmateurSponserDetails_RegistrationDetails">
+          <End Role="RegistrationDetails" Type="Self.RegistrationDetail" Multiplicity="1" />
+          <End Role="AmateurSponserDetails" Type="Self.AmateurSponserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AmateurSponserDetails">
+              <PropertyRef Name="Runner_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AmateurSponserDetails_SponserList">
+          <End Role="SponserList" Type="Self.SponserList" Multiplicity="1" />
+          <End Role="AmateurSponserDetails" Type="Self.AmateurSponserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SponserList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AmateurSponserDetails">
+              <PropertyRef Name="Sponsor_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegistrationDetails_ParticipantDetails">
+          <End Role="ParticipantDetails" Type="Self.ParticipantDetail" Multiplicity="1" />
+          <End Role="RegistrationDetails" Type="Self.RegistrationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParticipantDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RegistrationDetails">
+              <PropertyRef Name="ParticipantsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegistrationDetails_Volunteer_Types">
+          <End Role="Volunteer_Types" Type="Self.Volunteer_Types" Multiplicity="0..1" />
+          <End Role="RegistrationDetails" Type="Self.RegistrationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Volunteer_Types">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RegistrationDetails">
+              <PropertyRef Name="Volunteer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RunnerStatus_RegistrationDetails">
+          <End Role="RegistrationDetails" Type="Self.RegistrationDetail" Multiplicity="0..1" />
+          <End Role="RunnerStatus" Type="Self.RunnerStatu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RunnerStatus">
+              <PropertyRef Name="Runner_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PrestonClubDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AmateurSponserDetails" EntityType="Self.AmateurSponserDetail" />
+          <EntitySet Name="ParticipantDetails" EntityType="Self.ParticipantDetail" />
+          <EntitySet Name="RegistrationDetails" EntityType="Self.RegistrationDetail" />
+          <EntitySet Name="RunnerStatus" EntityType="Self.RunnerStatu" />
+          <EntitySet Name="SponserLists" EntityType="Self.SponserList" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Volunteer_Types" EntityType="Self.Volunteer_Types" />
+          <AssociationSet Name="FK_AmateurSponserDetails_RegistrationDetails" Association="Self.FK_AmateurSponserDetails_RegistrationDetails">
+            <End Role="RegistrationDetails" EntitySet="RegistrationDetails" />
+            <End Role="AmateurSponserDetails" EntitySet="AmateurSponserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AmateurSponserDetails_SponserList" Association="Self.FK_AmateurSponserDetails_SponserList">
+            <End Role="SponserList" EntitySet="SponserLists" />
+            <End Role="AmateurSponserDetails" EntitySet="AmateurSponserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegistrationDetails_ParticipantDetails" Association="Self.FK_RegistrationDetails_ParticipantDetails">
+            <End Role="ParticipantDetails" EntitySet="ParticipantDetails" />
+            <End Role="RegistrationDetails" EntitySet="RegistrationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegistrationDetails_Volunteer_Types" Association="Self.FK_RegistrationDetails_Volunteer_Types">
+            <End Role="Volunteer_Types" EntitySet="Volunteer_Types" />
+            <End Role="RegistrationDetails" EntitySet="RegistrationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RunnerStatus_RegistrationDetails" Association="Self.FK_RunnerStatus_RegistrationDetails">
+            <End Role="RegistrationDetails" EntitySet="RegistrationDetails" />
+            <End Role="RunnerStatus" EntitySet="RunnerStatus" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PrestonClubDBModelStoreContainer" CdmEntityContainer="PrestonClubDBEntities">
+          <EntitySetMapping Name="AmateurSponserDetails">
+            <EntityTypeMapping TypeName="PrestonClubDBModel.AmateurSponserDetail">
+              <MappingFragment StoreEntitySet="AmateurSponserDetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Runner_ID" ColumnName="Runner_ID" />
+                <ScalarProperty Name="Sponsor_Id" ColumnName="Sponsor_Id" />
+                <ScalarProperty Name="SponsorAmount" ColumnName="SponsorAmount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ParticipantDetails">
+            <EntityTypeMapping TypeName="PrestonClubDBModel.ParticipantDetail">
+              <MappingFragment StoreEntitySet="ParticipantDetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegistrationDetails">
+            <EntityTypeMapping TypeName="PrestonClubDBModel.RegistrationDetail">
+              <MappingFragment StoreEntitySet="RegistrationDetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="ParticipantsID" ColumnName="ParticipantsID" />
+                <ScalarProperty Name="WorldRanking" ColumnName="WorldRanking" />
+                <ScalarProperty Name="Volunteer_ID" ColumnName="Volunteer_ID" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="costume" ColumnName="costume" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RunnerStatus">
+            <EntityTypeMapping TypeName="PrestonClubDBModel.RunnerStatu">
+              <MappingFragment StoreEntitySet="RunnerStatus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Runner_ID" ColumnName="Runner_ID" />
+                <ScalarProperty Name="RunningStatus" ColumnName="RunningStatus" />
+                <ScalarProperty Name="FinishedTime" ColumnName="FinishedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SponserLists">
+            <EntityTypeMapping TypeName="PrestonClubDBModel.SponserList">
+              <MappingFragment StoreEntitySet="SponserList">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="PrestonClubDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Volunteer_Types">
+            <EntityTypeMapping TypeName="PrestonClubDBModel.Volunteer_Types">
+              <MappingFragment StoreEntitySet="Volunteer_Types">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

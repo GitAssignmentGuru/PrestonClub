@@ -1,0 +1,51 @@
+﻿@model PrestonClub.Models.RegistrationDetail
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="collectionlist">
+    <h2 class="text-center">Certificate Of Complete Marathon</h2>
+
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <label class="col-md-4">Participant Name : </label>
+            <label class="col-md-4">@Model.first_name @Model.last_name</label>
+        </div>
+        <div class="col-md-6">
+            <label class="col-md-3">Runner ID : </label>
+            <label class="col-md-4">@Model.ID</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label class="col-md-4">Participant Type : </label>
+            <label class="col-md-4">@Model.ParticipantDetail.Name</label>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <p class="text-center">
+            This is to certify that MR./MRS./ @Model.first_name @Model.last_name completed his marathan.
+        </p>
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <label class="col-md-4">Signature : </label>
+            <label class="col-md-4"></label>
+        </div>
+    </div>
+</div>
+
+<button onclick="window.print();">Print Collection</button>
+

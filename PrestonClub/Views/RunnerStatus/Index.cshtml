@@ -1,0 +1,62 @@
+﻿@model IEnumerable<PrestonClub.Models.RunnerStatu>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Runner ID
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RunningStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FinishedTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegistrationDetail.first_name)
+        </th>
+        <th>Sponsorship Form</th>
+        <th>Certificate</th>
+        <th></th>
+    </tr>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @( "Runner - "+item.Runner_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RunningStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinishedTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationDetail.first_name)
+            </td>
+            <td>
+                @Html.ActionLink("Create Certificate", "Certificate", new { id = item.ID })
+            </td>
+            <td>
+                @Html.ActionLink("Sponsorship Form", "SponsorShipForm", new { id = item.ID })
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>

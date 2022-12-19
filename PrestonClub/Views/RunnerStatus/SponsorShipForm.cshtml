@@ -1,0 +1,43 @@
+﻿@model PrestonClub.Models.RegistrationDetail
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="collectionlist">
+    <h2>Collection List for @Model.first_name @Model.last_name</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                Runner ID
+            </th>
+            <th>
+                Sponsor Name
+            </th>
+            <th>
+                Sponsor Amount
+            </th>
+        </tr>
+
+        @foreach (var item in Model.AmateurSponserDetails)
+        {
+            <tr>
+                <td>
+                    @( "Runner - "+Model.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SponserList.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SponsorAmount)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<button onclick="window.print();">Print Collection</button>
+

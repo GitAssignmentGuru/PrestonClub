@@ -1,0 +1,73 @@
+﻿@model PrestonClub.Models.SponsorDetailsModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Sponser</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.spl.ID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.spl.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.spl.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.spl.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <h4><b>Amateur Runner List</b></h4>
+    @for (int i = 0; i < Model.rgf.Count(); i++)
+    {
+        var name = "asi[" + i + "].SponsorAmount";
+        var RunnerID = "asi[" + i + "].Runner_ID";
+        var ID = "asi[" + i + "].ID";
+        <input type="hidden" class="form-control" name="@RunnerID" value="@Model.rgf[i].ID" />
+        if (i < Model.asi.Count())
+        {
+            <input type="hidden" class="form-control" name="@ID" value="@Model.asi[i].ID" />
+        }
+        else
+        {
+            <input type="hidden" class="form-control" name="@ID" />
+        }
+
+        <div class="form-group">
+            <label class="control-label col-md-2">@Model.rgf[i].first_name @Model.rgf[i].last_name</label>
+            <div class="col-md-10">
+                @if (i < Model.asi.Count())
+                {
+                    <input type="number" class="form-control" name="@name" value="@Model.asi[i].SponsorAmount" />
+                }
+                else
+                {
+                    <input type="number" class="form-control" name="@name"  />
+                }
+                
+            </div>
+        </div>
+    }
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
